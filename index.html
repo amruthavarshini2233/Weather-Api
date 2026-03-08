@@ -1,196 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Modern Weather App</title>
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+<title>Weather Dashboard</title>
 
-body {
-    background: linear-gradient(135deg, #1e3c72, #2a5298);
-    font-family: 'Segoe UI', Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    color: white;
-}
+<link rel="stylesheet" href="style.css">
 
-.weather-card {
-    background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(15px);
-    padding: 40px;
-    border-radius: 30px;
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-}
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
-.search-box {
-    display: flex;
-    background: rgba(255,255,255,0.2);
-    border-radius: 50px;
-    padding: 5px 5px 5px 20px;
-    margin-bottom: 25px;
-}
-
-input {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: white;
-    font-size: 1rem;
-    width: 100%;
-}
-
-input::placeholder {
-    color: rgba(255,255,255,0.7);
-}
-
-button {
-    background: #ff7675;
-    border: none;
-    padding: 10px 25px;
-    border-radius: 50px;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-button:hover {
-    background: #e66767;
-}
-
-.city {
-    font-size: 2rem;
-    margin-bottom: 5px;
-}
-
-.temp {
-    font-size: 4.5rem;
-    font-weight: 800;
-}
-
-.desc {
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    text-transform: capitalize;
-}
-
-.weather-icon {
-    width: 90px;
-}
-
-.details {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.3);
-    padding-top: 15px;
-}
-
-.details div {
-    flex: 1;
-}
-
-.label {
-    font-size: 0.75rem;
-    opacity: 0.7;
-}
-
-.value {
-    font-size: 1.1rem;
-    font-weight: bold;
-}
-</style>
 </head>
 
 <body>
 
+<div id="particles-js"></div>
+
 <div class="weather-card">
-    <div class="search-box">
-        <input type="text" id="cityInput" placeholder="Enter city name">
-        <button onclick="getWeather()">Search</button>
-    </div>
 
-    <div id="weatherResult">
-        <div class="city">Search a city</div>
-        <img class="weather-icon" style="display:none">
-        <div class="temp">--°C</div>
-        <div class="desc">Weather info will appear here</div>
+<h2>Weather Dashboard</h2>
 
-        <div class="details">
-            <div>
-                <span class="label">Humidity</span>
-                <div class="value">--%</div>
-            </div>
-            <div>
-                <span class="label">Wind</span>
-                <div class="value">-- km/h</div>
-            </div>
-        </div>
-    </div>
+<div class="search-box">
+<input type="text" id="cityInput" placeholder="Enter city name">
+<button onclick="getWeather()">Search</button>
 </div>
 
-<script>
-const apiKey = "d3a2c8d269ee422ca8a143547252912";
+<button class="location-btn" onclick="getLocationWeather()">
+📍 Use My Location
+</button>
 
-async function getWeather() {
-    const city = document.getElementById("cityInput").value.trim();
-    const icon = document.querySelector(".weather-icon");
+<div class="weather-info">
 
-    if (!city) {
-        alert("Please enter a city name");
-        return;
-    }
+<div class="city">--</div>
 
-    const url = `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${city}&aqi=no`;
+<img class="weather-icon" style="display:none">
 
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
+<div class="temp">--°C</div>
 
-        if (data.error) {
-            alert(data.error.message);
-            return;
-        }
+<div class="desc">Search city or detect location</div>
 
-        document.querySelector(".city").innerText =
-            `${data.location.name}, ${data.location.country}`;
+<div class="details">
 
-        document.querySelector(".temp").innerText =
-            Math.round(data.current.temp_c) + "°C";
+<div class="detail-box">
+<div class="label">Humidity</div>
+<div class="value" id="humidity">--%</div>
+</div>
 
-        document.querySelector(".desc").innerText =
-            data.current.condition.text;
+<div class="detail-box">
+<div class="label">Wind</div>
+<div class="value" id="wind">-- km/h</div>
+</div>
 
-        document.querySelectorAll(".details .value")[0].innerText =
-            data.current.humidity + "%";
+<div class="detail-box">
+<div class="label">Feels Like</div>
+<div class="value" id="feels">--°C</div>
+</div>
 
-        document.querySelectorAll(".details .value")[1].innerText =
-            data.current.wind_kph + " km/h";
+<div class="detail-box">
+<div class="label">Pressure</div>
+<div class="value" id="pressure">-- mb</div>
+</div>
 
-        icon.src = "https:" + data.current.condition.icon;
-        icon.style.display = "block";
+<div class="detail-box">
+<div class="label">UV Index</div>
+<div class="value" id="uv">--</div>
+</div>
 
-    } catch (error) {
-        alert("Something went wrong. Please try again.");
-        console.error(error);
-    }
-}
+<div class="detail-box">
+<div class="label">Cloud</div>
+<div class="value" id="cloud">--%</div>
+</div>
 
-// Enter key support
-document.getElementById("cityInput").addEventListener("keypress", e => {
-    if (e.key === "Enter") getWeather();
-});
-</script>
+</div>
+
+<div id="updateTime" class="update"></div>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
