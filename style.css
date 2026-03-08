@@ -153,3 +153,26 @@ cursor:pointer;
 .suggestions div:hover{
 background:#f0f0f0;
 }
+#map{
+height:300px;
+margin-top:15px;
+border-radius:10px;
+}
+
+.suggestions{
+background:white;
+position:absolute;
+width:250px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+z-index:20;
+}
+
+.suggestions div{
+padding:8px;
+cursor:pointer;
+}
+
+.suggestions div:hover{
+background:#f0f0f0;
+}
