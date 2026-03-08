@@ -12,11 +12,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
-<link rel="stylesheet"
-href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 </head>
 
 <body>
@@ -28,16 +23,9 @@ href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <h2>Weather Dashboard</h2>
 
 <div class="search-box">
-
-<input type="text"
-id="cityInput"
-placeholder="Search location">
-
+<input type="text" id="cityInput" placeholder="Enter city name">
 <button onclick="getWeather()">Search</button>
-
 </div>
-
-<div id="suggestions" class="suggestions"></div>
 
 <button class="location-btn" onclick="getLocationWeather()">
 📍 Use My Location
@@ -90,8 +78,6 @@ placeholder="Search location">
 <div id="updateTime" class="update"></div>
 
 </div>
-
-<div id="map"></div>
 
 </div>
 
